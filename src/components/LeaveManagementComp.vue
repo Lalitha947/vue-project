@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <h1>Leave Requests</h1>
     <table class="leave-requests"><br><br>
     <thead>
@@ -27,4 +27,4 @@ export default {
 
 }
 </script>
-<style></style>
+<style></style> -->

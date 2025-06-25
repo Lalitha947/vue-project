@@ -1,5 +1,5 @@
 <template>
-  
+  <h1>DEPARTMENT OVERVIEW</h1>
 </template>
 
 <script>
@@ -12,4 +12,5 @@ export default {
     HelloWorld
   }
 }
+
 </script>
