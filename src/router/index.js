@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LeaveManagementView from '@/views/LeaveManagementView.vue'
+import PerformanceReviewView from '@/views/PerformanceReviewView.vue'
 
 
 const routes = [
@@ -22,7 +23,11 @@ const routes = [
     name: 'leaveManagement',
     component: LeaveManagementView
   },
-  
+  {
+    path: '/performanceReview',
+    name: 'performanceReview',
+    component: PerformanceReviewView
+  },
 ]
 
 const router = createRouter({
