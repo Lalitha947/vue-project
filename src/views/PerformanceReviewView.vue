@@ -2,13 +2,18 @@
 <template>
   <div>
     <br><br><h2>PERFORMANCE REVIEWS 🌟🚀👏💯📈</h2><br><br>
-    <button @click="showForm = true">+ADD PERFORMANCE REVIEW</button> 
-    <div v-if="showForm" class="modal-form">
+    <button @click="showForm = true">+ADD PERFORMANCE REVIEW</button>
+    
+    <br><div v-if="showForm" class="modal-form">
       <h3>Add Performance Review</h3>
       <br><form @submit.prevent="submitForm">
         <label>
           Employee Name:
           <input v-model="form.employeeName" required />
+        </label><br><br>
+        <label>
+          Department:
+          <input v-model="form.Department" required />
         </label><br><br>
         <label>
           Date:
@@ -30,10 +35,11 @@
         <button type="button" @click="showForm = false">Cancel</button>
       </form>
     </div>
-    <table class="table" id="leave-requests" border="1">
+    <table class="table" id="performance-review" border="1">
       <thead>
         <tr>
           <th scope="col">Name</th>
+          <th scope="col">Department</th>
           <th scope="col">Date</th>
           <th scope="col">Reviewer</th>
           <th scope="col">Punctuality</th>
@@ -41,9 +47,10 @@
         </tr>
       </thead>
       <tbody>
-  <tr v-for="employee in LeaveManagement" :key="employee.employeeId">
-    <template v-for="(review, revIndex) in employee.leaveManagement" :key="employee.employeeId">
+  <tr v-for="employee in PerformanceReview" :key="employee.employeeId">
+    <template v-for="(review, revIndex) in employee.performanceReview" :key="employee.employeeId">
       <td>{{ employee.name || employee.Name }}</td>
+      <td>{{ review.Department }}</td>
       <td>{{ review.Date }}</td>
       <td>{{ review.Reviewer }}</td>
       <td>{{ review.Punctuality }}</td>
@@ -59,46 +66,61 @@ export default {
   name: 'PerformanceReviewView',
   data() {
     return {
-      LeaveManagement: [
+      PerformanceReview: [
         {
           employeeId: 1,
           Name: "Sibongile Nkosi",
-          leaveManagement: [
-            { Date: "2025-06-26", Reviewer: "Khanyiso Haman", Punctuality: "Good", Dependability: "Excellent" },
+          performanceReview: [
+            { Date: "2025-06-26", Department: "Development", Reviewer: "Khanyiso Haman", Punctuality: "Good", Dependability: "Excellent" },
           ]
         },
         {
           employeeId: 2,
           name: "Lungile Moyo",
-          leaveManagement: [
-            { Date: "2025-06-27", Reviewer: "Khanyiso Haman", Punctuality: "Average", Dependability: "Good" },
+          performanceReview: [
+            { Date: "2025-06-27", Department: "HR", Reviewer: "Khanyiso Haman", Punctuality: "Average", Dependability: "Good" },
           ]
         },
         {
           employeeId: 3,
           name: "Thabo Molefe",
-          leaveManagement: [
-            { Date: "2025-06-28", Reviewer: "Matthew Brown", Punctuality: "Good", Dependability: "Good" },
+          performanceReview: [
+            { Date: "2025-06-28", Department: "QA", Reviewer: "Matthew Brown", Punctuality: "Good", Dependability: "Good" },
           ]
         },
         {
           employeeId: 4,
           name: "Keshav Naidoo",
-          leaveManagement: [
-            { Date: "2025-06-29", Reviewer: "Ruth N'zola", Punctuality: "Good", Dependability: "Good" },
+          performanceReview: [
+            { Date: "2025-06-29", Department: "Sales", Reviewer: "Ruth N'zola", Punctuality: "Good", Dependability: "Good" },
           ]
         },
         {
           employeeId: 5,
           name: "Zanele Khumalo",
-          leaveManagement: [
-            { Date: "2025-06-30", Reviewer: "Khanyiso Haman", Punctuality: "Bad", Dependability: "Poor" },
+          performanceReview: [
+            { Date: "2025-06-30", Department: "Marketing", Reviewer: "Khanyiso Haman", Punctuality: "Bad", Dependability: "Poor" },
+          ]
+        },
+        {
+          employeeId: 6,
+          name: "Sipho Zulu",
+          performanceReview: [
+            { Date: "2025-06-31", Department: "Marketing", Reviewer: "Ruth N'zola", Punctuality: "Good", Dependability: "Good" },
+          ]
+        },
+        {
+          employeeId: 7,
+          name: "Naledi Moeketsi",
+          performanceReview: [
+            { Date: "2025-07-01", Department: "IT", Reviewer: "Ruth N'zola", Punctuality: "Good", Dependability: "Excellent" },
           ]
         },
       ],
       showForm: false,
       form: {
         employeeName: '',
+        Department: '',
         Date: '',
         Reviewer: '',
         Punctuality: '',
@@ -109,22 +131,39 @@ export default {
   methods: {
     submitForm() {
       // Find employee by name (case-insensitive)
-      const employee = this.LeaveManagement.find(
+      const employee = this.PerformanceReview.find(
         emp => (emp.name || emp.Name).toLowerCase() === this.form.employeeName.trim().toLowerCase()
       );
       if (employee) {
-        employee.leaveManagement.push({
+        employee.performanceReview.push({
+          Department: this.form.Department,  
           Date: this.form.Date,
           Reviewer: this.form.Reviewer,
           Punctuality: this.form.Punctuality,
           Dependability: this.form.Dependability
         });
-        alert('Performance review added!');
+        
       } else {
-        alert('Employee not found!');
+        //the push adds new leave request to existing employee
+        const newId = this.PerformanceReview.length + 1;
+        this.PerformanceReview.push({
+          employeeId: newId,
+          name: this.form.employeeName,
+          performanceReview: [
+            {
+          Department: this.form.Department,  
+          Date: this.form.Date,
+          Reviewer: this.form.Reviewer,
+          Punctuality: this.form.Punctuality,
+          Dependability: this.form.Dependability
+            }
+          ]
+        });
+        alert('Performance review added!');
       }
       this.form = {
         employeeName: '',
+        Department: '',
         Date: '',
         Reviewer: '',
         Punctuality: '',
